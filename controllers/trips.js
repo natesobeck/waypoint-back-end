@@ -21,8 +21,20 @@ async function create(req, res) {
 async function index(req, res) {
   try {
     const trips = await Trip.find({})
-      .sort({ createdAt: 'desc' })
+      .sort({ 
+        createdAt: 'desc' 
+      })
     res.status(200).json(trips)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+async function show(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    res.status(200).json(trip)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -32,4 +44,5 @@ async function index(req, res) {
 export {
   create,
   index,
+  show
 }

@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
 
-const Address = new Schema({
+const addressSchema = new Schema({
   street: {
     type: String,
     required: true,
@@ -26,7 +26,5 @@ const Address = new Schema({
 },{
   timestamps: true,
 })
-
-const addressSchema = mongoose.model('addressSchema', Address)
 
 export { addressSchema }

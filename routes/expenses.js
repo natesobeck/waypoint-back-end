@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { decodeUserFromToken, checkAuth } from '../middleware/auth.js'
-import * as tripsCtrl from '../controllers/trips.js'
+import * as expensesCtrl from '../controllers/expenses.js'
 
 const router = Router()
 
@@ -9,7 +9,6 @@ const router = Router()
 
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
-router.get('/', checkAuth, tripsCtrl.index)
-router.post('/', checkAuth, tripsCtrl.create)
+router.post('/', checkAuth, expensesCtrl.create)
 
 export { router }

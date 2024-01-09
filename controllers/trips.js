@@ -18,6 +18,18 @@ async function create(req, res) {
   }
 }
 
+async function index(req, res) {
+  try {
+    const trips = await Trip.find({})
+      .sort({ createdAt: 'desc' })
+    res.status(200).json(trips)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
-  create
+  create,
+  index,
 }

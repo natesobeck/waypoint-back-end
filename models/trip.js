@@ -4,7 +4,7 @@ import { addressSchema } from './addressSchema.js'
 const Schema = mongoose.Schema
 
 const tripSchema = new Schema({
-  destination: addressSchema,
+  destination: String,
   itinerary: { 
     type: Schema.Types.ObjectId, 
     ref: 'Itinerary' },
@@ -21,7 +21,11 @@ const tripSchema = new Schema({
   expenses: [{
     type: Schema.Types.ObjectId,
     ref: 'Expense'
-  }]
+  }],
+  addedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'Profile'
+  }
 },{
   timestamps: true,
 })

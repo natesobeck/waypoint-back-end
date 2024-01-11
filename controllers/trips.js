@@ -1,6 +1,7 @@
 import { Trip } from "../models/trip.js"
 import { Profile } from "../models/profile.js"
 
+// trips
 async function create(req, res) {
   try {
     req.body.addedBy = req.user.profile
@@ -54,6 +55,7 @@ async function deleteTrip(req, res) {
   }
 }
 
+// expenses
 async function update(req, res) {
   try {
     const trip = await Trip.findByIdAndUpdate(
@@ -111,6 +113,26 @@ async function updateExpense(req, res) {
   }
 }
 
+// itineraries
+async function createItinerary(req, res) {
+try {
+  req.body.addedBy = req.user.profile
+  const trip = await Trip.findById(req.params.tripId)
+  trip.itineraries.push(req.body),
+  trip.save()
+  res.status(200).json(trip)
+} catch (error) {
+  console.log(error)
+  res.status(500).json(error)
+}
+}
+
+async function showItinerary(req, res) {
+  const trip = await Trip.findById(req.params.tripId)
+  const itinerary = trip.itineraries.id(req.params.itineraryId)
+  res.status(200).json(itinerary)
+}
+
 export {
   create,
   index,
@@ -119,5 +141,7 @@ export {
   update,
   createExpense,
   deleteExpense,
-  updateExpense
+  updateExpense,
+  createItinerary,
+  showItinerary
 }

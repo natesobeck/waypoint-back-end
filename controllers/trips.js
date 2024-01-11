@@ -54,9 +54,24 @@ async function deleteTrip(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const trip = await Trip.findByIdAndUpdate(
+      req.params.tripId,
+      req.body,
+      { new: true }
+    )
+    return res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
   show,
-  deleteTrip as delete
+  deleteTrip as delete,
+  update
 }

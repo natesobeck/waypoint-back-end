@@ -68,10 +68,26 @@ async function update(req, res) {
   }
 }
 
+async function createExpense(req, res) {
+  try {
+    req.body.addedBy = req.user.profile
+    const trip = await Trip.findByIdAndUpdate(
+      req.params.tripId,
+      { $push: { expenses: req.body }},
+      { new: true }
+    )
+    return res.status(201).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
   show,
   deleteTrip as delete,
-  update
+  update,
+  createExpense
 }

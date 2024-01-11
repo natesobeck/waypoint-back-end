@@ -25,5 +25,6 @@ router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 // itineraries
 router.get('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.showItinerary)
 router.post('/:tripId/itineraries', checkAuth, tripsCtrl.createItinerary)
+router.delete('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.deleteItinerary)
 
 export { router }

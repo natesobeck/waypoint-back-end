@@ -128,9 +128,26 @@ try {
 }
 
 async function showItinerary(req, res) {
-  const trip = await Trip.findById(req.params.tripId)
-  const itinerary = trip.itineraries.id(req.params.itineraryId)
-  res.status(200).json(itinerary)
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    res.status(200).json(itinerary)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+async function deleteItinerary(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    trip.itineraries.remove({ _id: req.params.itineraryId })
+    trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
 }
 
 export {
@@ -143,5 +160,6 @@ export {
   deleteExpense,
   updateExpense,
   createItinerary,
-  showItinerary
+  showItinerary,
+  deleteItinerary
 }

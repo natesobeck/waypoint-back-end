@@ -95,6 +95,22 @@ async function deleteExpense(req, res) {
   }
 }
 
+async function updateExpense(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const expense = trip.expenses.id(req.params.expenseId)
+    expense.category = req.body.category
+    expense.locationName = req.body.locationName
+    expense.cost = req.body.cost
+    expense.description = req.body.description
+    trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
@@ -102,5 +118,6 @@ export {
   deleteTrip as delete,
   update,
   createExpense,
-  deleteExpense
+  deleteExpense,
+  updateExpense
 }

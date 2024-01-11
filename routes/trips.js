@@ -16,5 +16,6 @@ router.post('/:tripId/expenses', checkAuth, tripsCtrl.createExpense)
 router.delete('/:tripId', checkAuth, tripsCtrl.delete)
 router.delete('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.deleteExpense)
 router.put('/:tripId', checkAuth, tripsCtrl.update)
+router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 
 export { router }

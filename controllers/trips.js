@@ -61,7 +61,7 @@ async function update(req, res) {
       req.body,
       { new: true }
     )
-    return res.status(200).json(trip)
+    res.status(200).json(trip)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -76,7 +76,19 @@ async function createExpense(req, res) {
       { $push: { expenses: req.body }},
       { new: true }
     )
-    return res.status(201).json(trip)
+    res.status(201).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+async function deleteExpense(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    trip.expenses.remove({ _id: req.params.expenseId })
+    await trip.save()
+    res.status(200).json(trip)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -89,5 +101,6 @@ export {
   show,
   deleteTrip as delete,
   update,
-  createExpense
+  createExpense,
+  deleteExpense
 }

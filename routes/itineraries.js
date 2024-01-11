@@ -9,6 +9,7 @@ const router = Router()
 
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
+router.get('/:itineraryId', checkAuth, itinerariesCtrl.show)
 router.post('/', checkAuth, itinerariesCtrl.create)
 
 export { router }

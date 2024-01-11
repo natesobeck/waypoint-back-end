@@ -41,8 +41,22 @@ async function show(req, res) {
   }
 }
 
+async function deleteTrip(req, res) {
+  try {
+    const trip = await Trip.findByIdAndDelete(req.params.tripId)
+    const profile = await Profile.findById(req.user.profile)
+    profile.trips.remove({ _id: req.params.tripId })
+    await profile.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
-  show
+  show,
+  deleteTrip as delete
 }

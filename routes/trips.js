@@ -11,6 +11,7 @@ const router = Router()
 router.use(decodeUserFromToken)
 router.get('/', checkAuth, tripsCtrl.index)
 router.get('/:tripId', checkAuth, tripsCtrl.show)
+router.delete('/:tripId', checkAuth, tripsCtrl.delete)
 router.post('/', checkAuth, tripsCtrl.create)
 
 export { router }

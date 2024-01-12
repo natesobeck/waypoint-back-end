@@ -219,6 +219,19 @@ async function updateScheduleItem(req, res) {
   }
 }
 
+async function deleteScheduleItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    itinerary.scheduleItems.remove({ _id: req.params.scheduleItemId })
+    await trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   // Trips
   create,
@@ -242,5 +255,6 @@ export {
   createScheduleItem,
   indexScheduleItem,
   showScheduleItem,
-  updateScheduleItem
+  updateScheduleItem,
+  deleteScheduleItem
 }

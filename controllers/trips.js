@@ -105,7 +105,7 @@ async function updateExpense(req, res) {
     expense.locationName = req.body.locationName
     expense.cost = req.body.cost
     expense.description = req.body.description
-    trip.save()
+    await trip.save()
     res.status(200).json(trip)
   } catch (error) {
     console.log(error)
@@ -119,7 +119,7 @@ try {
   req.body.addedBy = req.user.profile
   const trip = await Trip.findById(req.params.tripId)
   trip.itineraries.push(req.body),
-  trip.save()
+  await trip.save()
   res.status(200).json(trip)
 } catch (error) {
   console.log(error)
@@ -142,7 +142,7 @@ async function deleteItinerary(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
     trip.itineraries.remove({ _id: req.params.itineraryId })
-    trip.save()
+    await trip.save()
     res.status(200).json(trip)
   } catch (error) {
     console.log(error)
@@ -155,7 +155,7 @@ async function updateItinerary(req, res) {
     const trip = await Trip.findById(req.params.tripId)
     const itinerary = trip.itineraries.id(req.params.itineraryId)
     itinerary.name = req.body.name
-    trip.save()
+    await trip.save()
     res.status(200).json(itinerary)
   } catch (error) {
     console.log(error)
@@ -170,7 +170,7 @@ async function createScheduleItem(req, res) {
     const trip = await Trip.findById(req.params.tripId)
     const itinerary = trip.itineraries.id(req.params.itineraryId)
     itinerary.scheduleItems.push(req.body)
-    trip.save()
+    await trip.save()
     res.status(200).json(itinerary)
   } catch (error) {
     console.log(error)
@@ -201,6 +201,24 @@ async function showScheduleItem(req, res) {
   }
 }
 
+async function updateScheduleItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    const scheduleItem = itinerary.scheduleItems.id(req.params.scheduleItemId)
+    scheduleItem.name = req.body.name
+    scheduleItem.date = req.body.date
+    scheduleItem.startTime = req.body.startTime
+    scheduleItem.endTime = req.body.endTime
+    scheduleItem.category = req.body.category
+    await trip.save()
+    res.status(200).json(scheduleItem)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   // Trips
   create,
@@ -223,5 +241,6 @@ export {
   // Schedule Items
   createScheduleItem,
   indexScheduleItem,
-  showScheduleItem
+  showScheduleItem,
+  updateScheduleItem
 }

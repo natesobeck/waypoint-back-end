@@ -163,17 +163,40 @@ async function updateItinerary(req, res) {
   }
 }
 
+// Schedule Items
+
+async function createScheduleItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    itinerary.scheduleItems.push(req.body)
+    trip.save()
+    res.status(200).json(itinerary)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
+  // Trips
   create,
   index,
   show,
   deleteTrip as delete,
   update,
+
+  // Expenses
   createExpense,
   deleteExpense,
   updateExpense,
+
+  // Itineraries
   createItinerary,
   showItinerary,
   deleteItinerary,
-  updateItinerary
+  updateItinerary,
+
+  // Schedule Items
+  createScheduleItem,
 }

@@ -10,22 +10,29 @@ const router = Router()
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
 
-// trips
+// Trips
+
 router.get('/', checkAuth, tripsCtrl.index)
 router.get('/:tripId', checkAuth, tripsCtrl.show)
 router.post('/', checkAuth, tripsCtrl.create)
 router.delete('/:tripId', checkAuth, tripsCtrl.delete)
 router.put('/:tripId', checkAuth, tripsCtrl.update)
 
-// expenses
+// Expenses
+
 router.post('/:tripId/expenses', checkAuth, tripsCtrl.createExpense)
 router.delete('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.deleteExpense)
 router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 
-// itineraries
+// Itineraries
+
 router.get('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.showItinerary)
 router.post('/:tripId/itineraries', checkAuth, tripsCtrl.createItinerary)
 router.delete('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.deleteItinerary)
 router.put('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.updateItinerary)
+
+// Schedule Items
+
+router.post('/:tripId/itineraries/:itineraryId/scheduleitems', checkAuth, tripsCtrl.createScheduleItem)
 
 export { router }

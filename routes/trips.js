@@ -33,6 +33,7 @@ router.put('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.updateItine
 
 // Schedule Items
 
+router.get('/:tripId/itineraries/:itineraryId/scheduleitems', checkAuth, tripsCtrl.indexScheduleItem)
 router.post('/:tripId/itineraries/:itineraryId/scheduleitems', checkAuth, tripsCtrl.createScheduleItem)
 
 export { router }

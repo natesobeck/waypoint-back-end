@@ -21,6 +21,7 @@ const scheduleItemSchema = new Schema({
 })
 
 const itinerarySchema = new Schema({
+  name: String,
   activities: [{
     type: Schema.Types.ObjectId,
     ref: 'Activity'

@@ -150,6 +150,19 @@ async function deleteItinerary(req, res) {
   }
 }
 
+async function updateItinerary(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    itinerary.name = req.body.name
+    trip.save()
+    res.status(200).json(itinerary)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   create,
   index,
@@ -161,5 +174,6 @@ export {
   updateExpense,
   createItinerary,
   showItinerary,
-  deleteItinerary
+  deleteItinerary,
+  updateItinerary
 }

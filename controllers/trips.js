@@ -189,6 +189,18 @@ async function indexScheduleItem(req, res) {
   }
 }
 
+async function showScheduleItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const itinerary = trip.itineraries.id(req.params.itineraryId)
+    const scheduleItem = itinerary.scheduleItems.id(req.params.scheduleItemId)
+    res.status(200).json(scheduleItem)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   // Trips
   create,
@@ -210,5 +222,6 @@ export {
 
   // Schedule Items
   createScheduleItem,
-  indexScheduleItem
+  indexScheduleItem,
+  showScheduleItem
 }

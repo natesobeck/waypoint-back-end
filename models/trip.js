@@ -8,36 +8,36 @@ const scheduleItemSchema = new Schema({
     type: String,
     required: true
   },
-  date: Date,
   startTime: String,
   endTime: String,
   category: {
     type: String,
     enum: ['entertainment', 'food', 'fitness', 'lifestyle', 'other']
   },
+  venue: String,
   address: addressSchema
 },{
   timestamps: true,
 })
 
-const itinerarySchema = new Schema({
-  name: String,
-  activities: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Activity'
-  }],
-  restaurants: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Restaurant'
-  }],
-  scheduleItems: [scheduleItemSchema],
-  addedBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'Profile'
-  }
-},{
-  timestamps: true,
-})
+// const itinerarySchema = new Schema({
+//   name: String,
+//   activities: [{
+//     type: Schema.Types.ObjectId,
+//     ref: 'Activity'
+//   }],
+//   restaurants: [{
+//     type: Schema.Types.ObjectId,
+//     ref: 'Restaurant'
+//   }],
+//   scheduleItems: [scheduleItemSchema],
+//   addedBy: {
+//     type: Schema.Types.ObjectId,
+//     ref: 'Profile'
+//   }
+// },{
+//   timestamps: true,
+// })
 
 const expenseSchema = new Schema({
   category: {
@@ -65,8 +65,12 @@ const expenseSchema = new Schema({
 })
 
 const tripSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
   destination: addressSchema,
-  itineraries: [itinerarySchema],
+  schedule: [scheduleItemSchema],
   departureDate: Date,
   returnDate: Date,
   travelers: [{ 
@@ -75,7 +79,7 @@ const tripSchema = new Schema({
   packingList: [String],
   travelMethod: {
     type: String,
-    enum: ["car", "bus", "train", "plane", "boat", "other"]
+    enum: ["car", "bus", "train", "plane", "other"]
   },
   expenses: [expenseSchema],
   addedBy: {

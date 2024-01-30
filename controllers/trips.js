@@ -114,64 +114,63 @@ async function updateExpense(req, res) {
 }
 
 // itineraries
-async function createItinerary(req, res) {
-try {
-  req.body.addedBy = req.user.profile
-  const trip = await Trip.findById(req.params.tripId)
-  trip.itineraries.push(req.body),
-  await trip.save()
-  res.status(200).json(trip)
-} catch (error) {
-  console.log(error)
-  res.status(500).json(error)
-}
-}
+// async function createItinerary(req, res) {
+// try {
+//   req.body.addedBy = req.user.profile
+//   const trip = await Trip.findById(req.params.tripId)
+//   trip.itineraries.push(req.body),
+//   await trip.save()
+//   res.status(200).json(trip)
+// } catch (error) {
+//   console.log(error)
+//   res.status(500).json(error)
+// }
+// }
 
-async function showItinerary(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    res.status(200).json(itinerary)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
+// async function showItinerary(req, res) {
+//   try {
+//     const trip = await Trip.findById(req.params.tripId)
+//     const itinerary = trip.itineraries.id(req.params.itineraryId)
+//     res.status(200).json(itinerary)
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json(error)
+//   }
+// }
 
-async function deleteItinerary(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    trip.itineraries.remove({ _id: req.params.itineraryId })
-    await trip.save()
-    res.status(200).json(trip)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
+// async function deleteItinerary(req, res) {
+//   try {
+//     const trip = await Trip.findById(req.params.tripId)
+//     trip.itineraries.remove({ _id: req.params.itineraryId })
+//     await trip.save()
+//     res.status(200).json(trip)
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json(error)
+//   }
+// }
 
-async function updateItinerary(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    itinerary.name = req.body.name
-    await trip.save()
-    res.status(200).json(itinerary)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
+// async function updateItinerary(req, res) {
+//   try {
+//     const trip = await Trip.findById(req.params.tripId)
+//     const itinerary = trip.itineraries.id(req.params.itineraryId)
+//     itinerary.name = req.body.name
+//     await trip.save()
+//     res.status(200).json(itinerary)
+//   } catch (error) {
+//     console.log(error)
+//     res.status(500).json(error)
+//   }
+// }
 
 // Schedule Items
 
 async function createScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    itinerary.scheduleItems.push(req.body)
+    trip.schedule.push(req.body)
     await trip.save()
-    res.status(200).json(itinerary)
+    res.status(200).json(trip)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -232,6 +231,18 @@ async function deleteScheduleItem(req, res) {
   }
 }
 
+async function createPackingListItem(req, res) {
+  try {
+    const trip = Trip.findById(req.params.tripId)
+    trip.packingList.push(req.body)
+    await trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 export {
   // Trips
   create,
@@ -246,15 +257,18 @@ export {
   updateExpense,
 
   // Itineraries
-  createItinerary,
-  showItinerary,
-  deleteItinerary,
-  updateItinerary,
+  // createItinerary,
+  // showItinerary,
+  // deleteItinerary,
+  // updateItinerary,
 
   // Schedule Items
   createScheduleItem,
   indexScheduleItem,
   showScheduleItem,
   updateScheduleItem,
-  deleteScheduleItem
+  deleteScheduleItem,
+
+  // Packing List Items
+  createPackingListItem
 }

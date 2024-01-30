@@ -26,17 +26,20 @@ router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 
 // Itineraries
 
-router.get('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.showItinerary)
-router.post('/:tripId/itineraries', checkAuth, tripsCtrl.createItinerary)
-router.delete('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.deleteItinerary)
-router.put('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.updateItinerary)
+// router.get('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.showItinerary)
+// router.post('/:tripId/itineraries', checkAuth, tripsCtrl.createItinerary)
+// router.delete('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.deleteItinerary)
+// router.put('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.updateItinerary)
+
+// Packing List Item
+router.post('/:tripId/packinglist', checkAuth, tripsCtrl.createPackingListItem)
 
 // Schedule Items
 
-router.get('/:tripId/itineraries/:itineraryId/scheduleitems', checkAuth, tripsCtrl.indexScheduleItem)
-router.get('/:tripId/itineraries/:itineraryId/scheduleitems/:scheduleItemId', checkAuth, tripsCtrl.showScheduleItem)
-router.post('/:tripId/itineraries/:itineraryId/scheduleitems', checkAuth, tripsCtrl.createScheduleItem)
-router.put('/:tripId/itineraries/:itineraryId/scheduleitems/:scheduleItemId', checkAuth, tripsCtrl.updateScheduleItem)
-router.delete('/:tripId/itineraries/:itineraryId/scheduleitems/:scheduleItemId', checkAuth, tripsCtrl.deleteScheduleItem)
+router.get('/:tripId/schedule', checkAuth, tripsCtrl.indexScheduleItem)
+router.get('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.showScheduleItem)
+router.post('/:tripId/schedule', checkAuth, tripsCtrl.createScheduleItem)
+router.put('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.updateScheduleItem)
+router.delete('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.deleteScheduleItem)
 
 export { router }

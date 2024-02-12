@@ -20,24 +20,12 @@ const scheduleItemSchema = new Schema({
   timestamps: true,
 })
 
-// const itinerarySchema = new Schema({
-//   name: String,
-//   activities: [{
-//     type: Schema.Types.ObjectId,
-//     ref: 'Activity'
-//   }],
-//   restaurants: [{
-//     type: Schema.Types.ObjectId,
-//     ref: 'Restaurant'
-//   }],
-//   scheduleItems: [scheduleItemSchema],
-//   addedBy: {
-//     type: Schema.Types.ObjectId,
-//     ref: 'Profile'
-//   }
-// },{
-//   timestamps: true,
-// })
+const scheduleDaySchema = new Schema({
+  date: String,
+  scheduleItems: [scheduleItemSchema],
+},{
+  timestamps: true,
+})
 
 const expenseSchema = new Schema({
   category: {
@@ -70,7 +58,7 @@ const tripSchema = new Schema({
     required: true
   },
   destination: addressSchema,
-  schedule: [scheduleItemSchema],
+  schedule: [scheduleDaySchema],
   departureDate: Date,
   returnDate: Date,
   travelers: [{ 

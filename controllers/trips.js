@@ -63,6 +63,7 @@ async function update(req, res) {
       req.body,
       { new: true }
     )
+    console.log(trip)
     res.status(200).json(trip)
   } catch (error) {
     console.log(error)
@@ -113,62 +114,26 @@ async function updateExpense(req, res) {
   }
 }
 
-// itineraries
-// async function createItinerary(req, res) {
-// try {
-//   req.body.addedBy = req.user.profile
-//   const trip = await Trip.findById(req.params.tripId)
-//   trip.itineraries.push(req.body),
-//   await trip.save()
-//   res.status(200).json(trip)
-// } catch (error) {
-//   console.log(error)
-//   res.status(500).json(error)
-// }
-// }
-
-// async function showItinerary(req, res) {
-//   try {
-//     const trip = await Trip.findById(req.params.tripId)
-//     const itinerary = trip.itineraries.id(req.params.itineraryId)
-//     res.status(200).json(itinerary)
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json(error)
-//   }
-// }
-
-// async function deleteItinerary(req, res) {
-//   try {
-//     const trip = await Trip.findById(req.params.tripId)
-//     trip.itineraries.remove({ _id: req.params.itineraryId })
-//     await trip.save()
-//     res.status(200).json(trip)
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json(error)
-//   }
-// }
-
-// async function updateItinerary(req, res) {
-//   try {
-//     const trip = await Trip.findById(req.params.tripId)
-//     const itinerary = trip.itineraries.id(req.params.itineraryId)
-//     itinerary.name = req.body.name
-//     await trip.save()
-//     res.status(200).json(itinerary)
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json(error)
-//   }
-// }
-
 // Schedule Items
 
 async function createScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
-    trip.schedule.push(req.body)
+    let pushed = false
+    if (trip.schedule.length) {
+      trip.schedule.forEach(day => {
+        if (new Date(day.date).toLocaleDateString() === new Date(req.body.startTime).toLocaleDateString()) {
+          day.scheduleItems.push(req.body)
+          pushed = true
+        }
+      })
+    } 
+    if (pushed === false) {
+      trip.schedule.push({
+        date: req.body.startTime,
+        scheduleItems: req.body
+      })
+    }
     await trip.save()
     res.status(200).json(trip)
   } catch (error) {

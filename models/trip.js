@@ -52,6 +52,19 @@ const expenseSchema = new Schema({
   timestamps: true,
 })
 
+const packingListSchema = new Schema({
+  packed: {
+    type: Boolean,
+    default: false
+  },
+  name: {
+    type: String,
+    required: true
+  }
+}, {
+  timestamps: true,
+})
+
 const tripSchema = new Schema({
   name: {
     type: String,
@@ -64,7 +77,7 @@ const tripSchema = new Schema({
   travelers: [{ 
     type: Schema.Types.ObjectId, 
     ref: 'Profile' }],
-  packingList: [String],
+  packingList: [packingListSchema],
   travelMethod: {
     type: String,
     enum: ["car", "bus", "train", "plane", "other"]

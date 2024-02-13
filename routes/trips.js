@@ -24,14 +24,8 @@ router.post('/:tripId/expenses', checkAuth, tripsCtrl.createExpense)
 router.delete('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.deleteExpense)
 router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 
-// ScheduleDays
+// Packing List Items
 
-// router.get('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.showItinerary)
-// router.post('/:tripId/itineraries', checkAuth, tripsCtrl.createItinerary)
-// router.delete('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.deleteItinerary)
-// router.put('/:tripId/itineraries/:itineraryId', checkAuth, tripsCtrl.updateItinerary)
-
-// Packing List Item
 router.post('/:tripId/packinglist', checkAuth, tripsCtrl.createPackingListItem)
 
 // Schedule Items

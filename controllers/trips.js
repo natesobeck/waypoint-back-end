@@ -198,7 +198,7 @@ async function deleteScheduleItem(req, res) {
 
 async function createPackingListItem(req, res) {
   try {
-    const trip = Trip.findById(req.params.tripId)
+    const trip = await Trip.findById(req.params.tripId)
     trip.packingList.push(req.body)
     await trip.save()
     res.status(200).json(trip)
@@ -220,12 +220,6 @@ export {
   createExpense,
   deleteExpense,
   updateExpense,
-
-  // Itineraries
-  // createItinerary,
-  // showItinerary,
-  // deleteItinerary,
-  // updateItinerary,
 
   // Schedule Items
   createScheduleItem,

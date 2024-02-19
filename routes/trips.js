@@ -31,9 +31,9 @@ router.post('/:tripId/packinglist', checkAuth, tripsCtrl.createPackingListItem)
 // Schedule Items
 
 router.get('/:tripId/schedule', checkAuth, tripsCtrl.indexScheduleItem)
-router.get('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.showScheduleItem)
+router.get('/:tripId/schedule/:itemId', checkAuth, tripsCtrl.showScheduleItem)
 router.post('/:tripId/schedule', checkAuth, tripsCtrl.createScheduleItem)
-router.put('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.updateScheduleItem)
-router.delete('/:tripId/schedule/:scheduleItemId', checkAuth, tripsCtrl.deleteScheduleItem)
+router.put('/:tripId/schedule/:itemId', checkAuth, tripsCtrl.updateScheduleItem)
+router.delete('/:tripId/schedule/:itemId', checkAuth, tripsCtrl.deleteScheduleItem)
 
 export { router }

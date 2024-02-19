@@ -145,8 +145,17 @@ async function createScheduleItem(req, res) {
 async function deleteScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
-    const day = trip.schedule.find(day => {
-      return new Date(day.date).toLocaleDateString() === new Date(req.body.startTime).toLocaleDateString()
+    let item
+    let day
+    trip.schedule.forEach(d => {
+      d.scheduleItems.forEach(i => {
+        if (i._id.toString() === req.params.itemId) {
+          item = i
+        }
+      })
+      if (item) {
+        day = d
+      }
     })
     day.scheduleItems.remove({ _id: req.params.itemId })
     await trip.save()

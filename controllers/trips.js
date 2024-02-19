@@ -142,6 +142,21 @@ async function createScheduleItem(req, res) {
   }
 }
 
+async function deleteScheduleItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const day = trip.schedule.find(day => {
+      return new Date(day.date).toLocaleDateString() === new Date(req.body.startTime).toLocaleDateString()
+    })
+    day.scheduleItems.remove({ _id: req.params.itemId })
+    await trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
 async function indexScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
@@ -183,18 +198,7 @@ async function updateScheduleItem(req, res) {
   }
 }
 
-async function deleteScheduleItem(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    itinerary.scheduleItems.remove({ _id: req.params.scheduleItemId })
-    await trip.save()
-    res.status(200).json(trip)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
+// packing list
 
 async function createPackingListItem(req, res) {
   try {

@@ -145,44 +145,15 @@ async function createScheduleItem(req, res) {
 async function deleteScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
-    let item
-    let day
-    trip.schedule.forEach(d => {
-      d.scheduleItems.forEach(i => {
-        if (i._id.toString() === req.params.itemId) {
-          item = i
+    trip.schedule.forEach(day => {
+      day.scheduleItems.forEach(item => {
+        if (item._id.toString() === req.params.itemId) {
+          day.scheduleItems.remove({ _id: req.params.itemId })
         }
       })
-      if (item) {
-        day = d
-      }
     })
-    day.scheduleItems.remove({ _id: req.params.itemId })
     await trip.save()
     res.status(200).json(trip)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
-
-async function indexScheduleItem(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    res.status(200).json(itinerary.scheduleItems)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json(error)
-  }
-}
-
-async function showScheduleItem(req, res) {
-  try {
-    const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    const scheduleItem = itinerary.scheduleItems.id(req.params.scheduleItemId)
-    res.status(200).json(scheduleItem)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -192,15 +163,21 @@ async function showScheduleItem(req, res) {
 async function updateScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
-    const itinerary = trip.itineraries.id(req.params.itineraryId)
-    const scheduleItem = itinerary.scheduleItems.id(req.params.scheduleItemId)
-    scheduleItem.name = req.body.name
-    scheduleItem.date = req.body.date
-    scheduleItem.startTime = req.body.startTime
-    scheduleItem.endTime = req.body.endTime
-    scheduleItem.category = req.body.category
+    let newItem
+    trip.schedule.forEach(day => {
+      day.scheduleItems.forEach(item => {
+        if (item._id.toString() === req.params.itemId) {
+          newItem = day.scheduleItems.id(req.params.itemId)
+        }
+      })
+    })
+    newItem.name = req.body.name
+    newItem.date = req.body.date
+    newItem.startTime = req.body.startTime
+    newItem.endTime = req.body.endTime
+    newItem.category = req.body.category
     await trip.save()
-    res.status(200).json(scheduleItem)
+    res.status(200).json(newItem)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -236,8 +213,6 @@ export {
 
   // Schedule Items
   createScheduleItem,
-  indexScheduleItem,
-  showScheduleItem,
   updateScheduleItem,
   deleteScheduleItem,
 

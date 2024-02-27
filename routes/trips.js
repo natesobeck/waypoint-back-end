@@ -27,6 +27,8 @@ router.put('/:tripId/expenses/:expenseId', checkAuth, tripsCtrl.updateExpense)
 // Packing List Items
 
 router.post('/:tripId/packinglist', checkAuth, tripsCtrl.createPackingListItem)
+router.put('/:tripId/packinglist/:itemId', checkAuth, tripsCtrl.updatePackingListItem)
+router.delete('/:tripId/packinglist/:itemId', checkAuth, tripsCtrl.deletePackingListItem)
 
 // Schedule Items
 

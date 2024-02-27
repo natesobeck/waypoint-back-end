@@ -55,7 +55,6 @@ async function deleteTrip(req, res) {
   }
 }
 
-// expenses
 async function update(req, res) {
   try {
     const trip = await Trip.findByIdAndUpdate(
@@ -71,9 +70,10 @@ async function update(req, res) {
   }
 }
 
+// expenses
+
 async function createExpense(req, res) {
   try {
-    req.body.addedBy = req.user.profile
     const trip = await Trip.findByIdAndUpdate(
       req.params.tripId,
       { $push: { expenses: req.body }},
@@ -172,10 +172,13 @@ async function updateScheduleItem(req, res) {
       })
     })
     newItem.name = req.body.name
-    newItem.date = req.body.date
     newItem.startTime = req.body.startTime
     newItem.endTime = req.body.endTime
     newItem.category = req.body.category
+    newItem.venue = req.body.venue
+    newItem.address.street = req.body.address.street
+    newItem.address.city = req.body.address.city
+    newItem.address.zipCode = req.body.address.zipCode
     await trip.save()
     res.status(200).json(newItem)
   } catch (error) {
@@ -190,6 +193,31 @@ async function createPackingListItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
     trip.packingList.push(req.body)
+    await trip.save()
+    res.status(200).json(trip)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+async function updatePackingListItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    const listItem = trip.packingList.id(req.params.itemId)
+    listItem.packed = !listItem.packed
+    await trip.save()    
+    res.status(200).json(listItem)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
+}
+
+async function deletePackingListItem(req, res) {
+  try {
+    const trip = await Trip.findById(req.params.tripId)
+    trip.packingList.remove({ _id: req.params.itemId })
     await trip.save()
     res.status(200).json(trip)
   } catch (error) {
@@ -217,5 +245,7 @@ export {
   deleteScheduleItem,
 
   // Packing List Items
-  createPackingListItem
+  createPackingListItem,
+  updatePackingListItem,
+  deletePackingListItem
 }

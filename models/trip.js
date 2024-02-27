@@ -30,24 +30,16 @@ const scheduleDaySchema = new Schema({
 const expenseSchema = new Schema({
   category: {
     type: String,
-    enum: ['food', 'lodging', 'travel', 'transportation', 'activity', 'miscellaneous'],
+    enum: ['food', 'lodging', 'travel', 'transportation', 'leisure', 'miscellaneous'],
     required: true,
   },
-  locationName: String,
+  location: String,
   address: addressSchema,
   cost: {
     type: Number,
     required: true
   },
-  responsiblePeople: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Profile'
-  }],
   description: String,
-  addedBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'Profile'
-  }
 },{
   timestamps: true,
 })

@@ -30,9 +30,10 @@ const scheduleDaySchema = new Schema({
 const expenseSchema = new Schema({
   category: {
     type: String,
-    enum: ['food', 'lodging', 'travel', 'transportation', 'leisure', 'miscellaneous'],
+    enum: ['food', 'lodging', 'activity', 'transportation', 'entertainment', 'miscellaneous'],
     required: true,
   },
+  expense: String,
   location: String,
   address: addressSchema,
   cost: {

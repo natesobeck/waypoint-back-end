@@ -35,12 +35,11 @@ const expenseSchema = new Schema({
   },
   expense: String,
   location: String,
-  address: addressSchema,
   cost: {
     type: Number,
     required: true
   },
-  description: String,
+  note: String,
 },{
   timestamps: true,
 })

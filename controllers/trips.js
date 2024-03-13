@@ -103,12 +103,13 @@ async function updateExpense(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
     const expense = trip.expenses.id(req.params.expenseId)
+    expense.expense = req.body.expense
     expense.category = req.body.category
-    expense.locationName = req.body.locationName
+    expense.location = req.body.location
     expense.cost = req.body.cost
-    expense.description = req.body.description
+    expense.note = req.body.note
     await trip.save()
-    res.status(200).json(trip)
+    res.status(200).json(expense)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -121,22 +122,28 @@ async function createScheduleItem(req, res) {
   try {
     const trip = await Trip.findById(req.params.tripId)
     let pushed = false
+    let scheduleDay
     if (trip.schedule.length) {
       trip.schedule.forEach(day => {
         if (new Date(day.date).toLocaleDateString() === new Date(req.body.startTime).toLocaleDateString()) {
           day.scheduleItems.push(req.body)
+          day.scheduleItems.sort((a, b) => {
+            return new Date(a.startTime).valueOf() - new Date(b.startTime).valueOf()
+          })
           pushed = true
+          scheduleDay = day
         }
       })
     } 
     if (pushed === false) {
-      trip.schedule.push({
+      scheduleDay = {
         date: req.body.startTime,
-        scheduleItems: req.body
-      })
+        scheduleItems: [req.body]
+      }
+      trip.schedule.push(scheduleDay)
     }
     await trip.save()
-    res.status(200).json(trip)
+    res.status(200).json(scheduleDay)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -195,7 +202,7 @@ async function createPackingListItem(req, res) {
     const trip = await Trip.findById(req.params.tripId)
     trip.packingList.push(req.body)
     await trip.save()
-    res.status(200).json(trip)
+    res.status(200).json(trip.packingList)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
@@ -208,7 +215,7 @@ async function updatePackingListItem(req, res) {
     const listItem = trip.packingList.id(req.params.itemId)
     listItem.packed = !listItem.packed
     await trip.save()    
-    res.status(200).json(listItem)
+    res.status(200).json(trip.packingList)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
